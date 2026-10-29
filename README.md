@@ -22,16 +22,11 @@ Styling	CSS3: custom properties, Flexbox, Grid, clamp(), media queries
 Animation	CSS keyframes (no JavaScript required for the slider)
 Assets	Images, a promotional video and a tiled background image
 Design System
-Token	Hex	Used for
---navy	
-#172637	Header, footer, primary buttons
---navy-light	
-#263b50	Utility navigation bar
---yellow	
-#ffc400	Accent: ticker, buttons, card borders, hover
---ink	
-#151515	Body text
---cream	
-#fffaf0	Page background
---line	
-#e9e3d8	Subtle borders
+
+Future Enhancements
+Back-end with a REST API (Node.js or Django) and a relational database
+User registration and login
+Working cart, checkout and payment gateway integration
+Product filtering by size, colour and price
+Wish list and customer reviews
+Pause control for the slider and further accessibility improvements
