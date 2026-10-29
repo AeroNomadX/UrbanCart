@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart | Fashion & Apparel Store</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Cart Page Specific Styles aligned with styles.css theme */
+    .cart-container {
+      max-width: 1240px;
+      margin: 2rem auto;
+      padding: 0 max(4vw, 1.25rem);
+    }
+    
+    .cart-title {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      margin-bottom: 1.5rem;
+      color: var(--navy);
+    }
+
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .cart-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cart-item-card {
+      display: grid;
+      grid-template-columns: 100px 1fr auto;
+      gap: 1.25rem;
+      align-items: center;
+      background: white;
+      border: 3px solid var(--yellow);
+      padding: 1rem;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(23, 38, 55, 0.05);
+    }
+
+    .cart-item-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+    }
+
+    .cart-item-info h3 {
+      margin: 0 0 0.35rem 0;
+      font-size: 1.1rem;
+      color: var(--navy);
+    }
+
+    .cart-item-info .item-price {
+      font-weight: 700;
+      color: var(--ink);
+      font-size: 1.1rem;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .quantity-controls button {
+      width: 1.8rem;
+      height: 1.8rem;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .quantity-controls span {
+      font-weight: bold;
+      min-width: 1.5rem;
+      text-align: center;
+    }
+
+    .remove-btn {
+      background: transparent;
+      border: none;
+      color: #c53030;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.85rem;
+      text-decoration: underline;
+      padding: 0;
+    }
+
+    /* Summary Sidebar */
+    .cart-summary {
+      background: white;
+      border: 3px solid var(--yellow);
+      padding: 1.5rem;
+      border-radius: 4px;
+    }
+
+    .cart-summary h2 {
+      margin-top: 0;
+      color: var(--navy);
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 0.75rem;
+      font-size: 1.3rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.85rem 0;
+      font-size: 0.95rem;
+    }
+
+    .summary-total {
+      border-top: 2px solid var(--line);
+      padding-top: 0.85rem;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--navy);
+    }
+
+    .promo-box {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .promo-box input {
+      flex: 1;
+      border: 1px solid var(--line);
+      padding: 0.5rem;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .promo-box button {
+      background: var(--navy);
+      color: white;
+      border: none;
+      padding: 0.5rem 0.85rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--yellow);
+      color: var(--ink);
+      font-weight: 800;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      text-align: center;
+      display: block;
+      transition: background 0.2s;
+    }
+
+    .checkout-btn:hover {
+      background: #e6b000;
+    }
+
+    .empty-cart-msg {
+      background: white;
+      border: 3px solid var(--yellow);
+      padding: 3rem;
+      text-align: center;
+      border-radius: 4px;
+    }
+
+    /* Promotional Ad Modal Popup */
+    .ad-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(23, 38, 55, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .ad-modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .ad-modal {
+      background: white;
+      border: 4px solid var(--yellow);
+      width: 90%;
+      max-width: 480px;
+      padding: 2rem;
+      border-radius: 8px;
+      position: relative;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .ad-modal-backdrop.active .ad-modal {
+      transform: translateY(0);
+    }
+
+    .close-ad {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--navy);
+    }
+
+    .ad-badge {
+      background: var(--yellow);
+      color: var(--navy);
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.25rem 0.5rem;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .ad-modal h3 {
+      font-size: 1.6rem;
+      color: var(--navy);
+      margin: 0.5rem 0;
+    }
+
+    .ad-modal p {
+      color: #505050;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .ad-code {
+      background: #f7f7f7;
+      border: 2px dashed var(--navy);
+      padding: 0.6rem;
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin: 1rem 0;
+      color: var(--navy);
+    }
+
+    @media (max-width: 760px) {
+      .cart-layout {
+        grid-template-columns: 1fr;
+      }
+      .cart-item-card {
+        grid-template-columns: 80px 1fr;
+      }
+      .cart-item-card > div:last-child {
+        grid-column: span 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Utility Navigation -->
+  <div class="utility-nav">
+    <a href="#">Help & Support</a>
+    <a href="#">Track Order</a>
+    <a href="#">Store Locator</a>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="main-nav">
+    <div class="logo-space">
+      <a href="index.html" style="font-size: 1.4rem; font-weight: 800; color: white;">FASHION<span style="color: var(--yellow);">HUB</span></a>
+    </div>
+
+    <form class="search-form" onsubmit="event.preventDefault();">
+      <select aria-label="Select Category">
+        <option>All Apparel</option>
+        <option>Women</option>
+        <option>Men</option>
+        <option>Accessories</option>
+      </select>
+      <input type="text" placeholder="Search for apparel, brands, styles..." />
+      <button type="submit">Search</button>
+    </form>
+
+    <a href="cart.html" class="cart-link">
+      Cart <span id="nav-cart-count">0</span>
+    </a>
+  </header>
+
+  <!-- Deal Announcement Banner -->
+  <div class="deal-ticker" style="text-align: center;">
+    ⚡ EXCLUSIVE OFFER: Get Extra 15% OFF using code <span style="text-decoration: underline;">SAVE15</span> at checkout!
+  </div>
+
+  <main>
+    <div class="cart-container">
+      <h1 class="cart-title">Shopping Cart</h1>
+
+      <div class="cart-layout" id="cart-layout">
+        <!-- Dynamic Cart Items Container -->
+        <div class="cart-items-list" id="cart-items-container">
+          <!-- Populated via JS -->
+        </div>
+
+        <!-- Order Summary Box -->
+        <div class="cart-summary">
+          <h2>Order Summary</h2>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="summary-subtotal">₹0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Estimated Shipping</span>
+            <span id="summary-shipping">₹99.00</span>
+          </div>
+          <div class="summary-row" id="discount-row" style="display: none; color: #2e7d32;">
+            <span>Discount (15%)</span>
+            <span id="summary-discount">-₹0.00</span>
+          </div>
+
+          <div class="promo-box">
+            <input type="text" id="promo-input" placeholder="Promo Code (e.g. SAVE15)" />
+            <button onclick="applyPromoCode()">Apply</button>
+          </div>
+
+          <div class="summary-row summary-total">
+            <span>Total</span>
+            <span id="summary-total">₹0.00</span>
+          </div>
+
+          <button class="checkout-btn" onclick="proceedToCheckout()">PROCEED TO CHECKOUT</button>
+          <a href="index.html" style="display: block; text-align: center; margin-top: 1rem; color: var(--navy); font-weight: 700; font-size: 0.85rem;">← Continue Shopping</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h2>FASHION HUB</h2>
+        <p>Your one-stop destination for modern trends, premium apparel, and everyday luxury fashion.</p>
+      </div>
+      <div>
+        <h3>Quick Links</h3>
+        <a href="#">New Arrivals</a>
+        <a href="#">Best Sellers</a>
+        <a href="#">Special Offers</a>
+      </div>
+      <div>
+        <h3>Customer Care</h3>
+        <a href="#">Shipping Policy</a>
+        <a href="#">Returns & Exchanges</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Promotional Ad Modal Popup -->
+  <div class="ad-modal-backdrop" id="adModal">
+    <div class="ad-modal">
+      <button class="close-ad" onclick="closeAdModal()">&times;</button>
+      <span class="ad-badge">LIMITED TIME AD</span>
+      <h3>Unlock 15% Instant Discount!</h3>
+      <p>Complete your purchase now and apply coupon code below to get 15% off on your fashion cart.</p>
+      <div class="ad-code">SAVE15</div>
+      <button class="primary-button" style="width: 100%; border: none; cursor: pointer;" onclick="closeAdModal(); applyPromoCodeDirect('SAVE15');">
+        APPLY CODE NOW
+      </button>
+    </div>
+  </div>
+
+  <!-- JavaScript Backend Logic for Cart Management -->
+  <script>
+    // Initial mock dataset if localStorage is empty
+    const defaultProducts = [
+      {
+        id: 101,
+        name: "Classic Denim Jacket",
+        price: 2499,
+        quantity: 1,
+        image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=300"
+      },
+      {
+        id: 102,
+        name: "Urban Oversized Hoodie",
+        price: 1899,
+        quantity: 2,
+        image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300"
+      }
+    ];
+
+    let promoApplied = false;
+
+    // Load cart state from localStorage or set defaults
+    function getCart() {
+      const stored = localStorage.getItem("apparel_cart");
+      if (!stored) {
+        localStorage.setItem("apparel_cart", JSON.stringify(defaultProducts));
+        return defaultProducts;
+      }
+      return JSON.parse(stored);
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem("apparel_cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    // Render Cart Items & Summary calculations
+    function renderCart() {
+      const cart = getCart();
+      const container = document.getElementById("cart-items-container");
+      const navCount = document.getElementById("nav-cart-count");
+
+      let totalItemsCount = 0;
+      cart.forEach(item => totalItemsCount += item.quantity);
+      navCount.innerText = totalItemsCount;
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="empty-cart-msg">
+            <h2>Your cart is currently empty</h2>
+            <p>Explore our latest fashion collections and add your favorite items!</p>
+            <a href="index.html" class="primary-button" style="margin-top: 1rem;">Shop Now</a>
+          </div>
+        `;
+        document.getElementById("summary-subtotal").innerText = "₹0.00";
+        document.getElementById("summary-shipping").innerText = "₹0.00";
+        document.getElementById("summary-total").innerText = "₹0.00";
+        return;
+      }
+
+      container.innerHTML = "";
+      let subtotal = 0;
+
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+
+        const card = document.createElement("div");
+        card.className = "cart-item-card";
+        card.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" class="cart-item-img" onerror="this.src='BG 2.jpg';" />
+          <div class="cart-item-info">
+            <h3>${item.name}</h3>
+            <div class="item-price">₹${item.price.toLocaleString()}</div>
+            <div class="quantity-controls">
+              <button onclick="updateQuantity(${item.id}, -1)">-</button>
+              <span>${item.quantity}</span>
+              <button onclick="updateQuantity(${item.id}, 1)">+</button>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-weight: 800; font-size: 1.1rem; color: var(--navy); margin-bottom: 0.5rem;">
+              ₹${itemTotal.toLocaleString()}
+            </div>
+            <button class="remove-btn" onclick="removeItem(${item.id})">Remove</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Calculate totals
+      const shipping = subtotal > 0 ? 99 : 0;
+      let discount = 0;
+      if (promoApplied) {
+        discount = subtotal * 0.15;
+        document.getElementById("discount-row").style.display = "flex";
+        document.getElementById("summary-discount").innerText = `-₹${discount.toFixed(2)}`;
+      }
+
+      const total = subtotal + shipping - discount;
+
+      document.getElementById("summary-subtotal").innerText = `₹${subtotal.toLocaleString()}`;
+      document.getElementById("summary-shipping").innerText = `₹${shipping.toFixed(2)}`;
+      document.getElementById("summary-total").innerText = `₹${total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+
+    // Cart Operations
+    function updateQuantity(id, delta) {
+      let cart = getCart();
+      const item = cart.find(p => p.id === id);
+      if (item) {
+        item.quantity += delta;
+        if (item.quantity <= 0) {
+          cart = cart.filter(p => p.id !== id);
+        }
+      }
+      saveCart(cart);
+    }
+
+    function removeItem(id) {
+      let cart = getCart();
+      cart = cart.filter(p => p.id !== id);
+      saveCart(cart);
+    }
+
+    function applyPromoCode() {
+      const input = document.getElementById("promo-input").value.trim().toUpperCase();
+      if (input === "SAVE15") {
+        promoApplied = true;
+        alert("Promo code SAVE15 applied successfully! 15% discount deducted.");
+        renderCart();
+      } else {
+        alert("Invalid promo code. Use code 'SAVE15'");
+      }
+    }
+
+    function applyPromoCodeDirect(code) {
+      document.getElementById("promo-input").value = code;
+      applyPromoCode();
+    }
+
+    function proceedToCheckout() {
+      const cart = getCart();
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      alert("Redirecting to secure payment portal... (Partially functional demo)");
+    }
+
+    // Promotional Ad Popup triggers after 1.5 seconds automatically
+    window.addEventListener("DOMContentLoaded", () => {
+      renderCart();
+      setTimeout(() => {
+        document.getElementById("adModal").classList.add("active");
+      }, 1500);
+    });
+
+    function closeAdModal() {
+      document.getElementById("adModal").classList.remove("active");
+    }
+  </script>
+</body>
+</html>

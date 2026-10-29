@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A yellow, white, and navy e-commerce storefront template.">
+  <title>ShopSphere | Everyday Deals</title>
+  <link rel="stylesheet" href="styles.css">
+  <title>Fashion & Apparel Store</title>
+  
+  <!-- Add your main stylesheet link here -->
+  <link rel="stylesheet" href="Cart.html">
+
+  <!-- Internal CSS: page-specific styling lives here. -->
+  <style>
+    .section-label { letter-spacing: .14em; }
+    .hero-copy strong { color: #ffc400; }
+    .product-price { font-weight: 800; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="utility-nav" aria-label="Utility navigation">
+      <a href="#new">What's New</a>
+      <a href="#account">Account Details</a>
+      <a href="#orders">Orders</a>
+      <a href="#help">Help</a>
+      <a href="#gift-cards">Gift Cards</a>
+    </nav>
+
+    <nav class="main-nav" aria-label="Main navigation">
+
+      <!-- Inline CSS: reserve this area for your company logo. -->
+      <a class="logo-space" href="#home" aria-label="UrbanCart home">
+        <img src="UrbanCart-logo-transparent.png" alt="UrbanCart">
+      </a>
+      <form class="search-form" role="search">
+        <label class="sr-only" for="site-search">Search products</label>
+        <select aria-label="Product category">
+          <option>All Categories</option>
+          <option>Electronics</option>
+          <option>Fashion</option>
+          <option>Home & Kitchen</option>
+        </select>
+        <input id="site-search" type="search" placeholder="Search products, brands and more">
+        <button type="submit">Search</button>
+      </form>
+      <a class="cart-link" href="Cart.html">🛒 Cart <span>0</span></a>
+    </nav>
+  </header>
+
+  <main id="home">
+    <marquee class="deal-ticker" behavior="scroll" direction="left" scrollamount="6">
+      HOT DEALS — Free delivery on orders over $50 • Extra 20% off selected electronics • Use code WELCOME10 for your first order
+    </marquee>
+
+    <section class="auto-slider-section" aria-labelledby="slider-title">
+  <h2 id="slider-title">Featured Collections</h2>
+
+  <div class="auto-slider">
+  <article class="auto-slide">
+    <div class="slide-copy">
+      <p>MEGA DEAL</p>
+      <h3>Best Tech<br>For Less</h3>
+    </div>
+
+    <img src="M1.png" alt="Featured electronics deal">
+
+    <div class="slide-offer">
+      <span>UP TO</span>
+      <strong>50% OFF</strong>
+    </div>
+  </article>
+
+  <article class="auto-slide">
+    <div class="slide-copy">
+      <p>NEW STYLE</p>
+      <h3>Fashion<br>For Everyone</h3>
+    </div>
+
+    <img src="M2.png" alt="Featured fashion deal">
+
+    <div class="slide-offer">
+      <span>FROM</span>
+      <strong>$15</strong>
+    </div>
+  </article>
+
+  <article class="auto-slide">
+    <div class="slide-copy">
+      <p>HOME DEALS</p>
+      <h3>Make Your<br>Home Better</h3>
+    </div>
+
+    <img src="M3.png" alt="Featured home deal">
+
+    <div class="slide-offer">
+      <span>SAVE UP TO</span>
+      <strong>40% OFF</strong>
+    </div>
+  </article>
+
+  <article class="auto-slide">
+    <div class="slide-copy">
+      <p>SELF CARE</p>
+      <h3>Beauty<br>Essentials</h3>
+    </div>
+
+    <img src="M4.png" alt="Featured beauty deal">
+
+    <div class="slide-offer">
+      <span>STARTING AT</span>
+      <strong>$9</strong>
+    </div>
+  </article>
+</div>
+</section>
+
+    <section class="product-section" id="deals" aria-labelledby="deals-title">
+      <div class="section-heading compact">
+        <div><p class="section-label">SHOP BY CATEGORY</p><h2 id="deals-title">Deals made for you</h2></div>
+        <a class="text-link" href="#all-products">View all deals →</a>
+      </div>
+      <div class="card-grid">
+  <article class="category-card">
+    <img class="category-image" src="Electronics.png" alt="Wireless earbuds">
+    <div>
+      <p>UP TO 40% OFF</p>
+      <h3>Electronics</h3>
+      <a href="#electronics">Shop now →</a>
+    </div>
+  </article>
+
+  <article class="category-card">
+    <img class="category-image" src="fashion.png" alt="Fashion products">
+    <div>
+      <p>STARTING AT $15</p>
+      <h3>Fashion Finds</h3>
+      <a href="#fashion">Shop now →</a>
+    </div>
+  </article>
+
+  <article class="category-card">
+    <img class="category-image" src="house.png" alt="Home and living products">
+    <div>
+      <p>WEEKEND SPECIAL</p>
+      <h3>Home & Living</h3>
+      <a href="#home-living">Shop now →</a>
+    </div>
+  </article>
+
+  <article class="category-card">
+    <img class="category-image" src="Beauty.png" alt="Beauty products">
+    <div>
+      <p>SAVE EVERY DAY</p>
+      <h3>Beauty & Care</h3>
+      <a href="#beauty">Shop now →</a>
+    </div>
+  </article>
+</div>
+    </section>
+
+    <div class="single-product-card">
+  <video autoplay muted loop playsinline>
+    <source src="Fashion.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="video-taglines">
+  <p>NEW ARRIVALS</p>
+  <h2>Shop Smarter. Live Better.</h2>
+  <span>Best deals, latest trends, and everyday essentials.</span>
+</div>
+
+  </main>
+
+  <footer>
+    <div class="footer-grid"><div><h2>ShopSphere</h2><p>Great finds. Fair prices. Every day.</p></div><div><h3>Customer care</h3><a href="#help">Help center</a><a href="#orders">Track an order</a><a href="#returns">Returns</a></div><div><h3>About us</h3><a href="#about">Our story</a><a href="#careers">Careers</a><a href="#contact">Contact</a></div></div>
+    <!-- Inline CSS: small one-off footer detail. -->
+     <section class="trusted-partners" aria-labelledby="trusted-title">
+  <h3 id="trusted-title">Trusted by</h3>
+
+  <div class="partner-logos">
+    <img src="ASUS logo white.png" alt="ASUS">
+    <img src="images/bjs.png" alt="BJ's">
+    <img src="images/kimberly-clark.png" alt="Kimberly-Clark">
+    <img src="images/lenovo.png" alt="Lenovo">
+    <img src="images/mga.png" alt="MGA">
+    <img src="images/prudential.png" alt="Prudential">
+    <img src="images/staples.png" alt="Staples">
+    <img src="images/pt.png" alt="PT">
+  </div>
+</section>
+    <p style="text-align: center; margin: 2rem 0 0; color: #b8c1cd;">© 2026 Urbancart. All rights reserved.</p>
+  </footer>
+</body>
+</html>
